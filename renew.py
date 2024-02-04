@@ -1,7 +1,7 @@
 from kubernetes import client, config
 import os
 import subprocess
-
+import base64
 
 def renew(domain, email):
     command = [
@@ -34,7 +34,9 @@ def save_certs_to_secret(domain):
 
     for key, filename in cert_files.items():
         with open(os.path.join(cert_path, filename), "rb") as file:
-            secret_data[key] = file.read()
+            b = base64.b64encode(bytes(file.read().decode().rstrip(), 'utf-8'))
+            secret_data[key] = b.decode('utf-8')
+
 
     config.load_incluster_config()
     v1 = client.CoreV1Api()
