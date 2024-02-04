@@ -11,7 +11,7 @@ def renew(domain, email):
         "--dns-cloudflare-credentials", "/mnt/config.ini",
         "--agree-tos", "-n",
         "-m", email,
-        "-d", domain,
+        "-d", f'{domain},*.{domain}',
         # "--dry-run"
     ]
 
