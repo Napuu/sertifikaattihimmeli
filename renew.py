@@ -53,7 +53,8 @@ def save_certs_to_secret(domain):
         if e.status == 404:
             secret = client.V1Secret(
                 metadata=client.V1ObjectMeta(name=secret_name),
-                data=secret_data
+                data=secret_data,
+                type="kubernetes.io/tls"
             )
             v1.create_namespaced_secret(namespace, secret)
             print(f"Created secret {secret_name} in namespace {namespace}.")
